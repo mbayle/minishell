@@ -6,7 +6,7 @@
 #    By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/10 20:28:28 by mabayle           #+#    #+#              #
-#    Updated: 2019/03/22 16:35:36 by mabayle          ###   ########.fr        #
+#    Updated: 2019/07/06 01:04:37 by mabayle          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,20 @@ endif
 
 SRC_PATH = ./src/
 SRCS = $(addprefix $(SRC_PATH), $(SRC))
-SRC = 
+SRC = main.c \
+	  minishell.c \
+	  msh_expand.c \
+	  msh_gestion.c \
+	  msh_env.c \
+	  msh_env_utils.c \
+	  msh_builtins_utils.c \
+	  msh_setenv.c \
+	  msh_unsetenv.c \
+	  msh_echo.c \
+	  msh_cd.c \
+	  msh_help.c \
+	  msh_exit.c \
+	  msh_pwd.c 
 
 OBJ_PATH = ./obj/
 OBJS = $(addprefix $(OBJ_PATH), $(OBJ))
@@ -64,6 +77,6 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "\033[0;32m [OK] \033[0m       \033[0;33m Deleted ft_ls\033[0m"
+	@echo "\033[0;32m [OK] \033[0m       \033[0;33m Deleted minishell\033[0m"
 
 re: fclean all

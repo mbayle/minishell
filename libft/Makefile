@@ -6,7 +6,7 @@
 #    By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/10 03:26:28 by mabayle           #+#    #+#              #
-#    Updated: 2019/03/17 18:28:10 by mabayle          ###   ########.fr        #
+#    Updated: 2019/06/27 07:07:19 by mabayle          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC = ft_memset.c \
 	  ft_isalnum.c \
 	  ft_isascii.c \
 	  ft_isprint.c \
+	  ft_isspace.c \
 	  ft_toupper.c \
 	  ft_tolower.c \
 	  ft_memalloc.c \
@@ -61,6 +62,9 @@ SRC = ft_memset.c \
 	  ft_strnequ.c \
 	  ft_strsub.c \
 	  ft_strjoin.c \
+	  ft_strjoin_free.c \
+	  ft_strjoin_one.c \
+	  ft_strjoin_onef.c \
 	  ft_strtrim.c \
 	  ft_strsplit.c \
 	  ft_itoa.c \
@@ -72,6 +76,7 @@ SRC = ft_memset.c \
 	  ft_putstr_fd.c \
 	  ft_putendl_fd.c \
 	  ft_putnbr_fd.c \
+	  ft_tablen.c \
 	  ft_lstnew.c \
 	  ft_lstdelone.c \
 	  ft_lstdel.c \
@@ -80,7 +85,8 @@ SRC = ft_memset.c \
 	  ft_lstmap.c \
 	  get_next_line.c \
 	  ft_dlstnew.c \
-	  ft_add_str_to_board.c
+	  ft_add_str_to_board.c \
+	  ft_free_array.c
 
 OBJ_PATH = ./obj/
 OBJS = $(addprefix $(OBJ_PATH), $(OBJ))

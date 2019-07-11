@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 22:05:24 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/06 03:06:25 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/10 22:53:22 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,27 @@ int		msh_fork(char *path, char **input)
 	if (pid == 0)
 		execve(path, input, msh_env);
 	else if (pid < 0)
-	{
 		ft_putendl("MSH Error during fork");
-		free(path);
-	}
 	wait(&pid);
-	free(path);
+	ft_strdel(&path);
 	return (1);
 }
 
-int		msh_is_exec(char **input, char *bin, struct stat stats)
+int		msh_is_exec(char **input, char *path, struct stat stats)
 {
 	if (S_ISREG(stats.st_mode))
 	{
 		if (stats.st_mode & S_IXUSR)
-			return (msh_fork(bin, input));
+			return (msh_fork(path, input));
 		else
 		{
 			ft_putstr("MSH Error: permission denied: ");
-			ft_putendl(bin);
+			ft_putendl(path);
 		}
-		free(bin);
+		free(path);
 		return (1);
 	}
-	free(bin);
+	free(path);
 	return (1);
 }
 
@@ -62,7 +59,7 @@ char	*msh_find_bin(char **input)
 			path = ft_strdup(input[0]);
 		else
 			path = ft_strjoin(bin[i], "/");
-		path = ft_strjoin(path, input[0]);
+		path = ft_strjoin_free(path, input[0]);
 		if (lstat(path, &stats) == -1)
 			free(path);
 		else
@@ -72,19 +69,16 @@ char	*msh_find_bin(char **input)
 		}
 		i++;
 	}
+	free(path);
+	path = NULL;
 	ft_free_array(bin);
 	return (NULL);
 }
 
-int		is_not_builtin(char **input, struct stat stats)
+int		is_not_builtin(char **input, char *path, struct stat stats)
 {
-	char *path;
-
-	if ((path = msh_find_bin(input)))
-	{
-		lstat(path, &stats);
+	if (path[0])
 		return (msh_is_exec(input, path, stats));
-	}
 	if (lstat(input[0], &stats) != -1)
 	{
 		if (S_ISREG(stats.st_mode))
@@ -113,7 +107,7 @@ int		execute_input(char **input, char **env)
 	if ((path = msh_find_bin(input)))
 	{
 		lstat(path, &stats);
-		is_not_builtin(input, stats);
+		is_not_builtin(input, path, stats);
 	}
 	else
 	{

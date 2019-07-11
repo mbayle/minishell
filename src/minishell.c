@@ -6,28 +6,43 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 04:26:55 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/06 04:19:32 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/11 06:04:05 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	create_env(char *pwd)
+{
+	msh_env = ft_memalloc(sizeof(char **));
+	msh_env[0] = ft_strjoin("PWD=", pwd);
+	msh_env[1] = ft_strjoin("PATH=", MINI_PATH);
+	msh_env[2] = ft_strjoin("HOME=", "/Users/mabayle");
+	msh_env[3] = NULL;
+}
+
 void	init_env(char **environ)
 {
-	int len;
-	int i;
+	int 	len;
+	int 	i;
+	char 	actual_dir[PATH_MAX + 1];
 
 	len = ft_tablen(environ);
 	i = 0;
-	msh_env = (char **)malloc(sizeof(char *) * (len + 1));
-	if (msh_env)
+	if (environ && len > 1)
 	{
+		msh_env = (char **)malloc(sizeof(char *) * (len + 1));
 		msh_env[len--] = NULL;
 		while (i <= len)
 		{
 			msh_env[i] = ft_strdup(environ[i]);
 			i++;
 		}
+	}
+	else
+	{
+		getcwd(actual_dir, sizeof(actual_dir));
+		create_env(actual_dir);
 	}
 }
 

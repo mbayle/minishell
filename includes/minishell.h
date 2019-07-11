@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/22 16:36:47 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/06 01:45:48 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/11 06:23:07 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include <stdio.h>      // A SUPPRIMER
 
 #define BUILTIN_NUM (8)
+#define MINI_PATH "/usr/bin:/bin:/usr/sbin"
 
 char		**msh_env;
 
@@ -37,6 +38,7 @@ int			main(void);
 void		msh_read(void);
 int			print_prompt(void);
 void		init_env(char **environ);
+void        create_env(char *pwd);
 
 // MSH_EXPAND.C
 int			is_special(char c);
@@ -47,8 +49,8 @@ char		*value_env(char *input, int i);
 // GESTION.C
 int         execute_input(char **input, char **env);
 char		*msh_find_bin(char **input);
-int			msh_is_exec(char **input, char *bin, struct stat stats);
-int			is_not_builtin(char **input, struct stat stats);
+int			msh_is_exec(char **input, char *path, struct stat stats);
+int			is_not_builtin(char **input, char *path, struct stat stats);
 int			msh_fork(char *path, char **input);
 
 // MSH_ENV.C

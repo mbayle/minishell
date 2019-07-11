@@ -6,7 +6,7 @@
 #    By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/10 20:28:28 by mabayle           #+#    #+#              #
-#    Updated: 2019/07/06 01:04:37 by mabayle          ###   ########.fr        #
+#    Updated: 2019/07/07 20:28:34 by mabayle          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ DEBUG = 0
 ifeq ($(DEBUG), 0)
 	CFLAGS = -Wall -Wextra -Werror -I$(INC_PATH)
 else
-	CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g -I$(INC_PATH)
+	CFLAGS = -Wall -Wextra -Werror -fsanitize=address -ggdb -fno-omit-frame-pointer -I$(INC_PATH)
 endif
 
 SRC_PATH = ./src/

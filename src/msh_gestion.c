@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 22:05:24 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/10 22:53:22 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/13 04:06:48 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ char	*msh_find_bin(char **input)
 		}
 		i++;
 	}
-	free(path);
-	path = NULL;
 	ft_free_array(bin);
 	return (NULL);
 }

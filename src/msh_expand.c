@@ -6,11 +6,20 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 07:21:42 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/06 04:21:19 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/13 06:13:51 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*replace_norme(char *input, int i)
+{
+	char	*new;
+
+	new = NULL;
+
+	return(new);
+}
 
 int		is_special(char c)
 {
@@ -27,14 +36,11 @@ char	*value_env(char *input, int i)
 	new = ft_strdup("");
 	while (input[i] && !ft_isspace(input[i]) && input[i] != '$' &&
 			input[i] != ':')
-		new = ft_strjoin_free(new, &input[i++]);
+		new = ft_strjoin_onef(new, input[i++]);
 	return (new);
 }
 
-/*
-*  PROBLEME AVEC LA SUBSTITUTION dans le cas du "-" !!! // Casse si ls -a par exemple
-*/
-char	*replace(char *input, int i)
+char	*replace(char *input, char *cmd, int i)
 {
 	char	*var;
 	char	*new;
@@ -44,21 +50,27 @@ char	*replace(char *input, int i)
 	{
 		if (input[i] == '$')
 		{
+			replace_norme(input, i);
 			var = value_env(input, i++ + 1);
 			new = ft_strjoin_free(new, ((get_env(var)) ? get_env(var) : "$"));
 			free(var);
-			while (input[i] && !ft_isspace(input[i]) && is_special(input[i]))
+			while (input[i] && !ft_isspace(input[i]) && !is_special(input[i]))
 				i++;
 		}
-		else if ((i == 0 || (i != 0 && ft_isspace(input[i - 1]))) 
+		else if ((i == 0 || (i != 0 && ft_isspace(input[i - 1])))
 			&& input[i] == '~' && input[i + 1] != '$')
 		{
 			if (input[i] == '~')
 				new = ft_strjoin_free(new, get_env("HOME"));
 			i++;
 		}
+		else if (input[i] == '-' && ft_strcmp(cmd, "cd") == 0)
+		{
+			new = ft_strjoin_free(new, get_env("OLDPWD"));
+			i++;
+		}
 		else
-			new = ft_strjoin_free(new, &input[i++]);
+			new = ft_strjoin_onef(new, input[i++]);
 	}
 	free(input);
 	return (new);
@@ -73,7 +85,7 @@ void	msh_expand(char **input)
 	{
 		if (ft_strchr(input[i], '$') != NULL || ft_strchr(input[i], '~') != NULL
 				|| ft_strchr(input[i], '-') != NULL)
-			input[i] = replace(input[i], 0);
+			input[i] = replace(input[i], input[0], 0);
 		i++;
 	}
 }

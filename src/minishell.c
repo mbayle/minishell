@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 04:26:55 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/11 06:04:05 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/13 05:31:42 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	create_env(char *pwd)
 
 void	init_env(char **environ)
 {
-	int 	len;
-	int 	i;
-	char 	actual_dir[PATH_MAX + 1];
+	int		len;
+	int		i;
+	char	actual_dir[PATH_MAX + 1];
 
 	len = ft_tablen(environ);
 	i = 0;

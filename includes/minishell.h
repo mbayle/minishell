@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/22 16:36:47 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/11 06:23:07 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/13 04:40:43 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void        create_env(char *pwd);
 // MSH_EXPAND.C
 int			is_special(char c);
 void		msh_expand(char **input);
-char		*replace(char *input, int i);
+char		*replace(char *input, char *cmd, int i);
 char		*value_env(char *input, int i);
 
 // GESTION.C

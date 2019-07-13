@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabayle <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 10:11:21 by mabayle           #+#    #+#             */
-/*   Updated: 2018/04/21 17:52:57 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/13 03:54:15 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,84 +14,65 @@
 #include <stdio.h>
 #include "libft.h"
 
-static size_t	length_word(char const *s, char c)
+int				ft_count_word(char const *s, char c)
 {
-	size_t	i;
+        int             count;
+        int             begin_word;
 
-	i = 0;
-	while (s[i] != c && s[i] != '\0')
-		++i;
-	return (i);
+        begin_word = 0;
+        count = 0;
+        while (*s != '\0')
+        {
+                if (begin_word == 1 && *s == c)
+                        begin_word = 0;
+                if (begin_word == 0 && *s != c)
+                {
+                        begin_word = 1;
+                        count++;
+                }
+                s++;
+        }
+        return (count);
 }
 
-static size_t	count_word(char const *s, char c)
+static int		ft_len(char const *s, char c)
 {
-	size_t	n;
-	size_t	i;
-	int		in_word;
+        int             len;
 
-	i = 0;
-	in_word = 0;
-	n = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == c && in_word)
-			in_word = !in_word;
-		else if (s[i] != c && !in_word)
-		{
-			++n;
-			in_word = !in_word;
-		}
-		++i;
-	}
-	return (n);
-}
-
-static char		**alloc_tab(size_t nb_word)
-{
-	char	**to_return;
-
-	to_return = (char**)malloc((nb_word + 1) * sizeof(*to_return));
-	if (to_return == NULL)
-		return (NULL);
-	to_return[0] = NULL;
-	return (to_return);
-}
-
-static void		split(char **to_return, char const *s, char c)
-{
-	size_t	itab;
-	char	*word;
-	size_t	lw;
-
-	itab = 0;
-	while (*s != '\0')
-	{
-		lw = length_word(s, c);
-		if (lw != 0)
-		{
-			word = ft_strsub(s, 0, lw);
-			to_return[itab] = word;
-			++itab;
-		}
-		s += lw;
-		while (*s == c)
-			++s;
-	}
-	to_return[itab] = NULL;
+        len = 0;
+        while (*s != c && *s != '\0')
+        {
+                len++;
+                s++;
+        }
+        return (len);
 }
 
 char			**ft_strsplit(char const *s, char c)
 {
-	char	**to_return;
-	size_t	nb_word;
+        char    **ptr;
+        int             nb_word;
+        int             index;
 
-	if (s == NULL)
-		return (alloc_tab(0));
-	nb_word = count_word(s, c);
-	to_return = alloc_tab(nb_word);
-	if (to_return == NULL)
-		return (NULL);
-	split(to_return, s, c);
-	return (to_return);
+        if (!s)
+                return (NULL);
+        index = 0;
+        nb_word = ft_count_word(s, c);
+        if (!(ptr = (char**)malloc(sizeof(char*) * (ft_count_word(s, c) + 1))))
+                return (NULL);
+        while (nb_word--)
+        {
+                while (*s == c && *s != '\0')
+                        s++;
+                if (!(ptr[index] = ft_strsub(s, 0, ft_len(s, c))))
+                {
+                        free(ptr);
+                        ptr = NULL;
+                        return (NULL);
+                }
+                s = s + ft_len(s, c);
+                index++;
+        }
+        ptr[index] = NULL;
+        return (ptr);
 }

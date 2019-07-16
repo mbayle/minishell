@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 04:26:55 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/13 05:31:42 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/16 06:57:22 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,14 @@ void	msh_read(void)
 	{
 		print_prompt();
 		get_next_line(0, &line);
-		input = ft_strsplit(line, ' ');
-		msh_expand(input);
-		status = execute_input(input, msh_env);
+		if (line)
+		{
+			input = ft_split_whitespaces(line);
+			msh_expand(input);
+			status = execute_input(input, msh_env);
+			ft_free_array(input);
+		}
 		free(line);
-		ft_free_array(input);
 	}
 	ft_free_array(msh_env);
 }

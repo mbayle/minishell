@@ -6,20 +6,20 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 07:21:42 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/13 06:13:51 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/16 05:43:03 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*replace_norme(char *input, int i)
+/*char	*replace_norme(char *input, int i)
 {
 	char	*new;
 
 	new = NULL;
 
 	return(new);
-}
+}*/
 
 int		is_special(char c)
 {
@@ -48,11 +48,11 @@ char	*replace(char *input, char *cmd, int i)
 	new = ft_strdup("");
 	while (input[i])
 	{
-		if (input[i] == '$')
+		if (input[i] == '$' && ft_strlen(input) > 1)
 		{
-			replace_norme(input, i);
+			//replace_norme(input, i);
 			var = value_env(input, i++ + 1);
-			new = ft_strjoin_free(new, ((get_env(var)) ? get_env(var) : "$"));
+			new = ft_strjoin_free(new, ((get_env(var)) ? get_env(var) : "\0"));
 			free(var);
 			while (input[i] && !ft_isspace(input[i]) && !is_special(input[i]))
 				i++;

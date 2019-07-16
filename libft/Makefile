@@ -6,7 +6,7 @@
 #    By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/10 03:26:28 by mabayle           #+#    #+#              #
-#    Updated: 2019/06/27 07:07:19 by mabayle          ###   ########.fr        #
+#    Updated: 2019/07/16 06:56:03 by mabayle          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,8 @@ SRC = ft_memset.c \
 	  get_next_line.c \
 	  ft_dlstnew.c \
 	  ft_add_str_to_board.c \
-	  ft_free_array.c
+	  ft_free_array.c \
+	  ft_split_whitespaces.c
 
 OBJ_PATH = ./obj/
 OBJS = $(addprefix $(OBJ_PATH), $(OBJ))

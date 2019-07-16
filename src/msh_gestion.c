@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 22:05:24 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/13 04:06:48 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/16 06:28:37 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ int		msh_fork(char *path, char **input)
 	pid_t	pid;
 
 	pid = fork();
-	if (pid == 0)
-		execve(path, input, msh_env);
-	else if (pid < 0)
-		ft_putendl("MSH Error during fork");
-	wait(&pid);
+	if (get_env("PATH") != NULL)
+	{
+		if (pid == 0)
+			execve(path, input, msh_env);
+		else if (pid < 0)
+			ft_putendl("MSH Error during fork");
+		wait(&pid);
+	}
 	ft_strdel(&path);
 	return (1);
 }
@@ -47,42 +50,57 @@ int		msh_is_exec(char **input, char *path, struct stat stats)
 char	*msh_find_bin(char **input)
 {
 	int			i;
-	char		**bin;
 	char		*path;
+	char		**bin;
 	struct stat	stats;
 
 	i = 0;
-	bin = ft_strsplit(get_env("PATH"), ':');
-	while (bin[i])
+	bin = NULL;
+	if (get_env("PATH"))
 	{
-		if (start_with(bin[i], input[0]))
-			path = ft_strdup(input[0]);
-		else
-			path = ft_strjoin(bin[i], "/");
-		path = ft_strjoin_free(path, input[0]);
-		if (lstat(path, &stats) == -1)
-			free(path);
-		else
+		bin = ft_strsplit(get_env("PATH"), ':');
+		while (bin[i])
 		{
-			ft_free_array(bin);
-			return (path);
+			if (start_with(bin[i], input[0]))
+				path = ft_strdup(input[0]);
+			else
+				path = ft_strjoin(bin[i], "/");
+			path = ft_strjoin_free(path, input[0]);
+			if (lstat(path, &stats) == -1)
+				free(path);
+			else
+			{
+				ft_free_array(bin);
+				return (path);
+			}
+			i++;
 		}
-		i++;
+		ft_free_array(bin);
 	}
-	ft_free_array(bin);
 	return (NULL);
 }
 
-int		is_not_builtin(char **input, char *path, struct stat stats)
+int		is_not_builtin(char **input)
 {
-	if (path[0])
+	struct stat stats;
+	char		*path;
+
+	if ((path = msh_find_bin(input)))
+	{
+		lstat(path, &stats);
 		return (msh_is_exec(input, path, stats));
+	}
 	if (lstat(input[0], &stats) != -1)
 	{
 		if (S_ISREG(stats.st_mode))
 			return (msh_is_exec(input, ft_strdup(input[0]), stats));
 		else if (S_ISDIR(stats.st_mode))
-			return (msh_cd(&input[0], 0));
+			return (msh_cd(&input[0], msh_env));
+	}
+	else
+	{
+		ft_putstr("MSH Error: this command does not exist: ");
+		ft_putendl(input[0]);
 	}
 	return (1);
 }
@@ -90,8 +108,6 @@ int		is_not_builtin(char **input, char *path, struct stat stats)
 int		execute_input(char **input, char **env)
 {
 	int			i;
-	char		*path;
-	struct stat	stats;
 
 	i = 0;
 	if (input[0] == NULL)
@@ -102,15 +118,6 @@ int		execute_input(char **input, char **env)
 			return ((*builtinf(i))(input, env));
 		i++;
 	}
-	if ((path = msh_find_bin(input)))
-	{
-		lstat(path, &stats);
-		is_not_builtin(input, path, stats);
-	}
-	else
-	{
-		ft_putstr("MSH Error: this command does not exist: ");
-		ft_putendl(input[0]);
-	}
+	is_not_builtin(input);
 	return (1);
 }

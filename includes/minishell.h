@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/22 16:36:47 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/13 04:40:43 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/16 05:58:04 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char		*value_env(char *input, int i);
 int         execute_input(char **input, char **env);
 char		*msh_find_bin(char **input);
 int			msh_is_exec(char **input, char *path, struct stat stats);
-int			is_not_builtin(char **input, char *path, struct stat stats);
+int			is_not_builtin(char **input);
 int			msh_fork(char *path, char **input);
 
 // MSH_ENV.C

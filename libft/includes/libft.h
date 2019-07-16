@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 15:01:11 by mabayle           #+#    #+#             */
-/*   Updated: 2019/06/27 07:06:03 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/16 06:55:28 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,6 @@ int					get_next_line(const int fd, char **line);
 t_libnode			*ft_dlstnew(void const *content, size_t content_size);
 char				**ft_add_str_to_board(char **tab, char *str);
 void				ft_free_array(char **input);
+char				**ft_split_whitespaces(char *str);
 
 #endif

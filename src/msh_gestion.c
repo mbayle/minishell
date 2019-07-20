@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 22:05:24 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/16 06:28:37 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/18 04:08:05 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		msh_fork(char *path, char **input)
 	pid_t	pid;
 
 	pid = fork();
-	if (get_env("PATH") != NULL)
+	if (path != NULL)
 	{
 		if (pid == 0)
 			execve(path, input, msh_env);

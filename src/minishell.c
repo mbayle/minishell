@@ -6,26 +6,16 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 04:26:55 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/16 06:57:22 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/20 22:58:01 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	create_env(char *pwd)
-{
-	msh_env = ft_memalloc(sizeof(char **));
-	msh_env[0] = ft_strjoin("PWD=", pwd);
-	msh_env[1] = ft_strjoin("PATH=", MINI_PATH);
-	msh_env[2] = ft_strjoin("HOME=", "/Users/mabayle");
-	msh_env[3] = NULL;
-}
-
 void	init_env(char **environ)
 {
 	int		len;
 	int		i;
-	char	actual_dir[PATH_MAX + 1];
 
 	len = ft_tablen(environ);
 	i = 0;
@@ -41,8 +31,8 @@ void	init_env(char **environ)
 	}
 	else
 	{
-		getcwd(actual_dir, sizeof(actual_dir));
-		create_env(actual_dir);
+		msh_env = ft_memalloc(sizeof(char **));
+		msh_env[0] = NULL;
 	}
 }
 
@@ -70,7 +60,7 @@ int		print_prompt(void)
 	return (1);
 }
 
-void	msh_read(void)
+int		msh_read(void)
 {
 	char		*line;
 	char		**input;
@@ -92,7 +82,10 @@ void	msh_read(void)
 			status = execute_input(input, msh_env);
 			ft_free_array(input);
 		}
+		else
+			ft_putchar('\n');
 		free(line);
 	}
 	ft_free_array(msh_env);
+	return (status);
 }

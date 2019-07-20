@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/22 16:36:47 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/16 05:58:04 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/20 22:58:25 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ char		**msh_env;
 int			main(void);
 
 // MINISHELL.c
-void		msh_read(void);
+int 		msh_read(void);
 int			print_prompt(void);
 void		init_env(char **environ);
-void        create_env(char *pwd);
 
 // MSH_EXPAND.C
 int			is_special(char c);

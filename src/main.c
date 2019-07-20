@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabayle <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/04 20:01:19 by mabayle           #+#    #+#             */
-/*   Updated: 2019/06/27 07:46:34 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/20 22:58:04 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 int	main(void)
 {
-	msh_read();
-	return (0);
+	int	ret;
+	ret = msh_read();
+	if (ret == -1)
+		return (-1);
+	else
+	{
+		return (0);
+	}
 }

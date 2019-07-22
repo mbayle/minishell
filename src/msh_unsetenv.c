@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:53:09 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/09 18:45:36 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/22 06:45:23 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,22 @@ int	unset_env_var(char *key)
 
 	i = 0;
 	j = 0;
-	len = ft_tablen(msh_env) - 1;
+	len = ft_tablen(g_msh_env) - 1;
 	tmp_key = ft_strjoin(key, "=");
 	new_env = (char **)malloc(sizeof(char *) * (len + 1));
 	new_env[len] = 0;
-	while (i < len && msh_env[j])
+	while (i < len && g_msh_env[j])
 	{
-		if (!start_with(tmp_key, msh_env[j]))
+		if (!start_with(tmp_key, g_msh_env[j]))
 		{
-			new_env[i] = ft_strdup(msh_env[j]);
+			new_env[i] = ft_strdup(g_msh_env[j]);
 			i++;
 		}
 		j++;
 	}
 	free(tmp_key);
-	ft_free_array(msh_env);
-	msh_env = new_env;
+	ft_free_array(g_msh_env);
+	g_msh_env = new_env;
 	return (1);
 }
 

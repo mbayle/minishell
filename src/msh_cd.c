@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 00:52:30 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/16 06:38:20 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/22 08:47:31 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@ int		msh_cd(char **input, char **env)
 		ft_putendl(input[1]);
 		return (1);
 	}
-	set_env_var("OLDPWD", actual_pwd);
-	getcwd(actual_pwd, sizeof(actual_pwd));
-	set_env_var("PWD", actual_pwd);
+	else
+	{
+		set_env_var("OLDPWD", actual_pwd);
+		getcwd(actual_pwd, sizeof(actual_pwd));
+		set_env_var("PWD", actual_pwd);
+	}
 	(void)env;
 	return (1);
 }

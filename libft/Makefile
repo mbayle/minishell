@@ -6,7 +6,7 @@
 #    By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/10 03:26:28 by mabayle           #+#    #+#              #
-#    Updated: 2019/07/16 06:56:03 by mabayle          ###   ########.fr        #
+#    Updated: 2019/07/22 09:18:03 by mabayle          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,12 +102,9 @@ all: $(NAME)
 $(NAME): $(OBJ_PATH) $(OBJS)
 	@echo "                                                        "
 	@ar rc $(NAME) $(OBJS)
-	@ranlib $(NAME)
-	@echo "\033[0;32m BUILD DONE \033[0m"
-	@echo "                                                        "
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(INCS)
-	@echo "\033[0;32m [OK] \033[0m       \033[0;33m Compiling:\033[0m" $<
+	@echo "\033[0;32m [OK] \033[0m       \033[0;33m Compiling libft :\033[0m" $<
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_PATH):

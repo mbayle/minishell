@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 04:26:55 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/20 22:58:01 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/22 09:07:46 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,22 @@ void	init_env(char **environ)
 	i = 0;
 	if (environ && len > 1)
 	{
-		msh_env = (char **)malloc(sizeof(char *) * (len + 1));
-		msh_env[len--] = NULL;
+		g_msh_env = (char **)malloc(sizeof(char *) * (len + 1));
+		g_msh_env[len--] = NULL;
 		while (i <= len)
 		{
-			msh_env[i] = ft_strdup(environ[i]);
+			g_msh_env[i] = ft_strdup(environ[i]);
 			i++;
 		}
 	}
 	else
 	{
-		msh_env = ft_memalloc(sizeof(char **));
-		msh_env[0] = NULL;
+		g_msh_env = ft_memalloc(sizeof(char **));
+		g_msh_env[0] = NULL;
 	}
 }
 
-int		print_prompt(void)
+char	*print_prompt(char *line)
 {
 	char	actual_dir[256];
 	int		len;
@@ -57,7 +57,8 @@ int		print_prompt(void)
 			ft_putchar(actual_dir[len]);
 		ft_putstr("\033[0;37m > ");
 	}
-	return (1);
+	get_next_line(0, &line);
+	return (line);
 }
 
 int		msh_read(void)
@@ -73,19 +74,18 @@ int		msh_read(void)
 	init_env(environ);
 	while (status)
 	{
-		print_prompt();
-		get_next_line(0, &line);
+		line = print_prompt(line);
 		if (line)
 		{
 			input = ft_split_whitespaces(line);
 			msh_expand(input);
-			status = execute_input(input, msh_env);
+			status = execute_input(input, g_msh_env);
 			ft_free_array(input);
 		}
 		else
 			ft_putchar('\n');
 		free(line);
 	}
-	ft_free_array(msh_env);
+	ft_free_array(g_msh_env);
 	return (status);
 }

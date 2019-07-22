@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:35:06 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/09 18:45:40 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/22 06:45:23 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,22 @@ void	create_env_var(char *key, char *value)
 	char	**new_env;
 
 	i = 0;
-	len = ft_tablen(msh_env) + 1;
+	len = ft_tablen(g_msh_env) + 1;
 	new_env = (char **)malloc(sizeof(char *) * (len + 1));
 	new_env[len--] = 0;
-	while (msh_env[i])
+	while (g_msh_env[i])
 	{
-		new_env[i] = ft_strdup(msh_env[i]);
-		free(msh_env[i]);
+		new_env[i] = ft_strdup(g_msh_env[i]);
+		free(g_msh_env[i]);
 		i++;
 	}
-	free(msh_env);
+	free(g_msh_env);
 	tmp_key = ft_strjoin(key, "=");
 	new_var = ft_strjoin(tmp_key, value);
 	new_env[i] = ft_strdup(new_var);
 	free(tmp_key);
 	free(new_var);
-	msh_env = new_env;
+	g_msh_env = new_env;
 }
 
 int		set_env_var(char *key, char *value)
@@ -51,8 +51,8 @@ int		set_env_var(char *key, char *value)
 		tmp_key = ft_strjoin(key, "=");
 		str_add = ft_strjoin(tmp_key, value);
 		free(tmp_key);
-		free(msh_env[exist_index]);
-		msh_env[exist_index] = ft_strdup(str_add);
+		free(g_msh_env[exist_index]);
+		g_msh_env[exist_index] = ft_strdup(str_add);
 		free(str_add);
 		return (1);
 	}
@@ -63,9 +63,6 @@ int		set_env_var(char *key, char *value)
 
 int		msh_setenv(char **input, char **env)
 {
-	char **new;
-
-	new = ft_strsplit(input[1], '=');
 	if (!input[1])
 	{
 		ft_putendl("MSH error: setenv/unsetenv: too few arguments");
@@ -76,10 +73,10 @@ int		msh_setenv(char **input, char **env)
 		ft_putendl("MSH error: setenv/unsetenv: too much arguments");
 		return (1);
 	}
-	if (!new[1])
-		return (set_env_var(new[0], ""));
-	if (new[1])
-		return (set_env_var(new[0], new[1]));
+	if (!input[2])
+		return (set_env_var(input[1], ""));
+	if (input[2])
+		return (set_env_var(input[1], input[2]));
 	(void)env;
 	return (1);
 }

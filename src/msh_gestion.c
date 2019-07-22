@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 22:05:24 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/18 04:08:05 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/22 06:58:57 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		msh_fork(char *path, char **input)
 	if (path != NULL)
 	{
 		if (pid == 0)
-			execve(path, input, msh_env);
+			execve(path, input, g_msh_env);
 		else if (pid < 0)
 			ft_putendl("MSH Error during fork");
 		wait(&pid);
@@ -47,15 +47,10 @@ int		msh_is_exec(char **input, char *path, struct stat stats)
 	return (1);
 }
 
-char	*msh_find_bin(char **input)
+char	*msh_find_bin(char **input, char *path, int i, char **bin)
 {
-	int			i;
-	char		*path;
-	char		**bin;
 	struct stat	stats;
 
-	i = 0;
-	bin = NULL;
 	if (get_env("PATH"))
 	{
 		bin = ft_strsplit(get_env("PATH"), ':');
@@ -84,8 +79,11 @@ int		is_not_builtin(char **input)
 {
 	struct stat stats;
 	char		*path;
+	char		**bin;
 
-	if ((path = msh_find_bin(input)))
+	bin = NULL;
+	path = NULL;
+	if ((path = msh_find_bin(input, path, 0, bin)))
 	{
 		lstat(path, &stats);
 		return (msh_is_exec(input, path, stats));
@@ -95,7 +93,7 @@ int		is_not_builtin(char **input)
 		if (S_ISREG(stats.st_mode))
 			return (msh_is_exec(input, ft_strdup(input[0]), stats));
 		else if (S_ISDIR(stats.st_mode))
-			return (msh_cd(&input[0], msh_env));
+			return (msh_cd(&input[0], g_msh_env));
 	}
 	else
 	{
@@ -115,7 +113,7 @@ int		execute_input(char **input, char **env)
 	while (i < BUILTIN_NUM)
 	{
 		if (ft_strcmp(input[0], builtin_list(i)) == 0)
-			return ((*builtinf(i))(input, env));
+			return ((*g_builtinf(i))(input, env));
 		i++;
 	}
 	is_not_builtin(input);

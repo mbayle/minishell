@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:29:17 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/09 18:45:53 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/22 06:45:23 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ char	*get_env(char *env_var)
 
 	i = 0;
 	tmp = ft_strjoin(env_var, "=");
-	while (msh_env[i])
+	while (g_msh_env[i])
 	{
-		if (start_with(tmp, msh_env[i]))
+		if (start_with(tmp, g_msh_env[i]))
 		{
 			free(tmp);
-			return (ft_strchr(msh_env[i], '=') + 1);
+			return (ft_strchr(g_msh_env[i], '=') + 1);
 		}
 		i++;
 	}
@@ -49,9 +49,9 @@ int		already_exist_index(char *key)
 
 	i = 0;
 	tmp = ft_strjoin(key, "=");
-	while (msh_env[i])
+	while (g_msh_env[i])
 	{
-		if (start_with(tmp, msh_env[i]))
+		if (start_with(tmp, g_msh_env[i]))
 		{
 			free(tmp);
 			return (i);

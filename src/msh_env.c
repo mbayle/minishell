@@ -6,7 +6,7 @@
 /*   By: mabayle <mabayle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 19:24:41 by mabayle           #+#    #+#             */
-/*   Updated: 2019/07/20 22:43:44 by mabayle          ###   ########.fr       */
+/*   Updated: 2019/07/22 05:21:50 by mabayle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ int		msh_env_print(char **input, char **env)
 		ft_putendl(env[i]);
 		i++;
 	}
-	(void) input;
+	(void)input;
 	return (1);
 }
